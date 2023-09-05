@@ -1,0 +1,15 @@
+valid_domains:
+  - github.com
+  - gitee.com
+  - gitlab.com
+  - source.openeuler.sh
+
+valid_organizations:
+  - openeuler
+  - opengauss
+  - mindspore
+  - openlookeng
+  - opensourceway
+  - opensourceways
+  - Open-Infra-Ops
+  - openMajun

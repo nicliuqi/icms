@@ -15,6 +15,8 @@ class Command(BaseCommand):
         r = requests.post(url, data=data)
         if r.status_code != 200:
             logger.error('Fail to refresh OPS token')
+            logger.error('Status code: {}'.format(r.status_code))
+            logger.error('Detail: {}'.format(r.json()))
         else:
             logger.info('Success to refresh OPS token')
             new_token = r.json().get('token')

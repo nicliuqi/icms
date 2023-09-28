@@ -90,8 +90,8 @@ def attention(receiver, maintainer, cve_info):
 
 def receivers_statistics():
     """take turns sending messages"""
-    receivers = list(set(Vulnerability.objects.all().values_list('email', flat=True)))
+    receivers = list(set(Vulnerability.objects.filter(status=1).values_list('email', flat=True)))
     for receiver in receivers:
         maintainer = Vulnerability.objects.filter(email=receiver).values()[0].get('maintainer')
-        cve_info = list(Vulnerability.objects.filter(email=receiver))
+        cve_info = list(Vulnerability.objects.filter(email=receiver, status=1))
         attention(receiver, maintainer, cve_info)

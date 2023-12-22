@@ -10,7 +10,7 @@ class Vulnerability(models.Model):
     target = models.TextField(verbose_name='target scan file', max_length=255, null=True, blank=True)
     project_url = models.CharField(verbose_name='project address', max_length=200)
     project_branch = models.CharField(verbose_name='project branch', max_length=50)
-    package = models.CharField(verbose_name='package', max_length=50)
+    package = models.CharField(verbose_name='package', max_length=100)
     version = models.CharField(verbose_name='package version', max_length=50)
     fixed_version = models.CharField(verbose_name='suggest version', max_length=255, null=True, blank=True)
     maintainer = models.CharField(verbose_name='maintainer', max_length=100)
@@ -25,3 +25,10 @@ class Vulnerability(models.Model):
 
 class Access(models.Model):
     token = models.CharField(verbose_name='OPS access token', max_length=255)
+
+
+class Service(models.Model):
+    repository = models.CharField(verbose_name='repo address', max_length=255)
+    branch = models.CharField(verbose_name='repo branch', max_length=100)
+    maintainer = models.CharField(verbose_name='project maintainer', max_length=100)
+    email = models.CharField(verbose_name='maintainer email', max_length=100)

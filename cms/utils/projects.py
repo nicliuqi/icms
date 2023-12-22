@@ -3,7 +3,7 @@ import requests
 import yaml
 from django.conf import settings
 from urllib.parse import urlparse
-from cms.models import Access
+from cms.models import Access, Service
 from cms.utils.packages import wrap_project
 
 logger = logging.Logger('log')
@@ -30,6 +30,27 @@ def collect_projects():
         branch = project.get('branch')
         maintainer = project.get('developer')
         email = project.get('email')
+        data = {
+            'url': url,
+            'branch': branch,
+            'maintainer': maintainer,
+            'email': email
+        }
+        res.append(data)
+    logger.info('All infrastructure projects have been collected: total {}'.format(len(res)))
+    return res
+
+
+def collect_projects_v2():
+    """get all projects through database"""
+    logger.info('Start to collect projects')
+    services = Service.objects.all()
+    res = []
+    for service in services:
+        url = service.repository
+        branch = service.branch
+        maintainer = service.maintainer
+        email = service.email
         data = {
             'url': url,
             'branch': branch,

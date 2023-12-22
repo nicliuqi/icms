@@ -5,7 +5,7 @@ import requests
 from datetime import datetime
 from django.conf import settings
 from cms.models import Vulnerability
-from cms.utils.packages import wrap_project, unwrap_project
+from cms.utils.packages import unwrap_project
 from cms.utils.projects import get_project_maintainer, get_projects_map
 
 logger = logging.getLogger('log')
@@ -72,7 +72,7 @@ def match_vtopia_vulnerabilities(projects, packages):
             branch = match_project.get('branch')
             maintainer = match_project.get('maintainer')
             email = match_project.get('email')
-            for i in  match_cve_nums:
+            for i in match_cve_nums:
                 cve = vul_maps[i]
                 cve_num = cve.get('cveNum')
                 title = cve.get('title')
@@ -167,58 +167,59 @@ def match_aqua_vulnerabilities(projects):
                 severity = vul.get('Severity')
                 publish_time = vul.get('PublishedDate')
                 if publish_time:
-                    publish_time = datetime.strptime(publish_time, '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S')
+                    publish_time = datetime.strptime(publish_time[:19], '%Y-%m-%dT%H:%M:%S').strftime(
+                        '%Y-%m-%d %H:%M:%S')
                 project_url, project_branch = unwrap_project(json_file)
                 maintainer, email = get_project_maintainer(projects_map, project_url, project_branch)
                 if not maintainer or not email:
                     logger.info('Cannot find maintainer or email of vulnerability {}, continue'.format(cve_num))
                     continue
                 if not Vulnerability.objects.filter(cve_num=cve_num,
-                        project_url=project_url,
-                        project_branch=project_branch,
-                        package=package,
-                        version=version,
-                        fixed_version=fixed_version,
-                        title=title,
-                        description=description,
-                        severity=severity,
-                        publish_time=publish_time,
-                        maintainer=maintainer,
-                        email=email,
-                        source='aqua',
-                        status__in=[1, 3]):
+                                                    project_url=project_url,
+                                                    project_branch=project_branch,
+                                                    package=package,
+                                                    version=version,
+                                                    fixed_version=fixed_version,
+                                                    title=title,
+                                                    description=description,
+                                                    severity=severity,
+                                                    publish_time=publish_time,
+                                                    maintainer=maintainer,
+                                                    email=email,
+                                                    source='aqua',
+                                                    status__in=[1, 3]):
                     Vulnerability.objects.create(cve_num=cve_num,
-                            cve_detail=cve_detail,
-                            project_url=project_url,
-                            project_branch=project_branch,
-                            target=target,
-                            package=package,
-                            version=version,
-                            fixed_version=fixed_version,
-                            title=title,
-                            description=description,
-                            severity=severity,
-                            publish_time=publish_time,
-                            create_time=now_time,
-                            maintainer=maintainer,
-                            email=email,
-                            source='aqua')
+                                                 cve_detail=cve_detail,
+                                                 project_url=project_url,
+                                                 project_branch=project_branch,
+                                                 target=target,
+                                                 package=package,
+                                                 version=version,
+                                                 fixed_version=fixed_version,
+                                                 title=title,
+                                                 description=description,
+                                                 severity=severity,
+                                                 publish_time=publish_time,
+                                                 create_time=now_time,
+                                                 maintainer=maintainer,
+                                                 email=email,
+                                                 source='aqua')
                     logger.info('Create aqua vulnerability {}'.format(cve_num))
                 else:
                     Vulnerability.objects.filter(cve_num=cve_num,
-                            project_url=project_url,
-                            project_branch=project_branch,
-                            package=package,
-                            version=version,
-                            fixed_version=fixed_version,
-                            title=title,
-                            description=description,
-                            severity=severity,
-                            publish_time=publish_time,
-                            maintainer=maintainer,
-                            email=email,
-                            source='aqua',
-                            status=3).update(status=1)
+                                                 project_url=project_url,
+                                                 project_branch=project_branch,
+                                                 package=package,
+                                                 version=version,
+                                                 fixed_version=fixed_version,
+                                                 title=title,
+                                                 description=description,
+                                                 severity=severity,
+                                                 publish_time=publish_time,
+                                                 maintainer=maintainer,
+                                                 email=email,
+                                                 source='aqua',
+                                                 status=3).update(status=1)
                     logger.info('Update aqua vulnerability {}'.format(cve_num))
     Vulnerability.objects.filter(source='aqua', status=3).update(solve_time=now_time, status=2)
     logger.info('Match vulnerabilities by aqua')

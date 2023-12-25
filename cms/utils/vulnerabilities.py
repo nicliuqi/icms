@@ -67,6 +67,8 @@ def match_vtopia_vulnerabilities(projects, packages):
         logger.info('match_package: {}, match_cv_nums: {}'.format(package, match_cve_nums))
         pkg_name, pkg_version = package.split('==')
         for project in projects:
+            if project not in projects_map.keys():
+                continue
             match_project = projects_map[project]
             url = match_project.get('url')
             branch = match_project.get('branch')

@@ -47,7 +47,7 @@ def attention(receiver, maintainer, cve_info):
         cve_detail = cve.cve_detail
         if not cve_detail:
             cve_detail = '/'.join([settings.VUL_DETAIL_PREFIX, number])
-        a_tag = '<a href="{0}/{1}">{1}</a>'.format(cve_detail, number)
+        a_tag = '<a href="{0}">{1}</a>'.format(cve_detail, number)
         cve_item = """
         <tr>
             <td>{}</td>

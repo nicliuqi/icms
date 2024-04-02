@@ -16,7 +16,7 @@ class Vulnerability(models.Model):
     maintainer = models.CharField(verbose_name='maintainer', max_length=100)
     email = models.CharField(verbose_name='maintainer email', max_length=100)
     status = models.IntegerField(verbose_name='CVE status of ICMS', choices=((1, 'unsolved'), (2, 'solved'),
-                               (3, 'waiting')), default=1)
+                               (3, 'waiting'), (4, 'ignored'), (5, 'misreport')), default=1)
     source = models.CharField(verbose_name='source platform', max_length=20, default='vtopia')
     publish_time = models.CharField(verbose_name='publish time', max_length=20, null=True, blank=True)
     create_time = models.CharField(verbose_name='create time', max_length=20, null=True, blank=True)

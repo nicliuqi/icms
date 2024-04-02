@@ -7,7 +7,13 @@ cd cms/data/repo/github
 if [ -d $repo ]; then
   cd $repo
   git pull
-  cd ..
+  if [ $? != 0 ]; then
+    cd ..
+    rm -rf $repo
+    git clone -b $branch $url $repo
+  else
+    cd ..
+  fi
 else
   git clone -b $branch $url $repo
 fi

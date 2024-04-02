@@ -93,7 +93,7 @@ def match_vtopia_vulnerabilities(projects, packages):
                                                     severity=severity,
                                                     publish_time=publish_time,
                                                     source='vtopia',
-                                                    status__in=[1, 3]):
+                                                    status__in=[1, 3, 4, 5]):
                     Vulnerability.objects.create(cve_num=cve_num,
                                                  project_url=url,
                                                  project_branch=branch,
@@ -189,7 +189,7 @@ def match_aqua_vulnerabilities(projects):
                                                     maintainer=maintainer,
                                                     email=email,
                                                     source='aqua',
-                                                    status__in=[1, 3]):
+                                                    status__in=[1, 3, 4, 5]):
                     Vulnerability.objects.create(cve_num=cve_num,
                                                  cve_detail=cve_detail,
                                                  project_url=project_url,

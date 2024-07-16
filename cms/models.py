@@ -14,7 +14,6 @@ class Vulnerability(models.Model):
     version = models.CharField(verbose_name='package version', max_length=50)
     fixed_version = models.CharField(verbose_name='suggest version', max_length=255, null=True, blank=True)
     maintainer = models.CharField(verbose_name='maintainer', max_length=100)
-    email = models.CharField(verbose_name='maintainer email', max_length=100)
     status = models.IntegerField(verbose_name='CVE status of ICMS', choices=((1, 'unsolved'), (2, 'solved'),
                                (3, 'waiting'), (4, 'ignored'), (5, 'misreport')), default=1)
     source = models.CharField(verbose_name='source platform', max_length=20, default='vtopia')
@@ -23,12 +22,7 @@ class Vulnerability(models.Model):
     solve_time = models.CharField(verbose_name='solve time', max_length=20, null=True, blank=True)
 
 
-class Access(models.Model):
-    token = models.CharField(verbose_name='OPS access token', max_length=255)
-
-
 class Service(models.Model):
     repository = models.CharField(verbose_name='repo address', max_length=255)
     branch = models.CharField(verbose_name='repo branch', max_length=100)
     maintainer = models.CharField(verbose_name='project maintainer', max_length=100)
-    email = models.CharField(verbose_name='maintainer email', max_length=100)

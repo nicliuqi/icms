@@ -5,18 +5,14 @@ repo=$3
 mkdir -p cms/data/repo/github
 cd cms/data/repo/github
 if [ -d $repo ]; then
-  cd $repo
-  git pull
-  if [ $? != 0 ]; then
-    cd ..
-    rm -rf $repo
-    git clone -b $branch $url $repo
-  else
-    cd ..
-  fi
-else
-  git clone -b $branch $url $repo
+  rm -rf $repo
 fi
+
+while [ ! -d $repo ]
+do
+  git clone -b $branch $url $repo
+done
+
 if [ ! -d ../../json ]; then
   mkdir -p ../../json
 fi
